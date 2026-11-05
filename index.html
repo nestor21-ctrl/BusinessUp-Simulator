@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BusinessUp Simulator 3.0</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <span class="brand-icon">B↑</span>
+        <div>
+            <strong>BusinessUp</strong>
+            <small>SIMULATOR 3.0</small>
+        </div>
+    </div>
+
+    <div class="header-info">
+        <span id="period">Periodo 1 de 12</span>
+        <button id="resetBtn" class="ghost">
+            Nueva partida
+        </button>
+    </div>
+</header>
+
+<main class="container">
+
+    <!-- BIENVENIDA -->
+    <section id="welcomeScreen" class="welcome-screen panel">
+        <p class="eyebrow">APRENDE · DECIDE · CRECE</p>
+        <h1>Conviértete en gerente empresarial</h1>
+        <p class="muted">
+            Administra una tienda tecnológica durante 12 meses.
+            Cumple misiones, enfrenta eventos inesperados
+            y consigue la mejor evaluación posible.
+        </p>
+
+        <label for="companyName">Nombre de la empresa</label>
+        <input id="companyName" type="text"
+               maxlength="40" value="BusinessUp Tech">
+
+        <label for="difficulty">Dificultad</label>
+        <select id="difficulty">
+            <option value="easy">Fácil</option>
+            <option value="normal" selected>Normal</option>
+            <option value="hard">Difícil</option>
+        </select>
+
+        <button id="startBtn" class="primary">
+            Iniciar simulación
+        </button>
+
+        <p class="hint">
+            Tu partida se guarda automáticamente en este navegador.
+        </p>
+    </section>
+
+    <!-- SIMULADOR -->
+    <section id="dashboard" hidden>
+
+        <div class="welcome">
+            <div>
+                <p class="eyebrow">SIMULACIÓN EMPRESARIAL</p>
+                <h1 id="companyTitle">BusinessUp Tech</h1>
+                <p class="muted">
+                    Administra tus recursos y completa los desafíos.
+                </p>
+            </div>
+            <span id="status" class="status">
+                Empresa en funcionamiento
+            </span>
+        </div>
+
+        <!-- INDICADORES -->
+        <section class="metrics">
+            <article class="metric-card">
+                <span>Capital disponible</span>
+                <h2 id="capital">$50,000</h2>
+                <small>Efectivo MXN</small>
+            </article>
+            <article class="metric-card">
+                <span>Ventas acumuladas</span>
+                <h2 id="sales">$0</h2>
+                <small>MXN</small>
+            </article>
+            <article class="metric-card">
+                <span>Utilidad acumulada</span>
+                <h2 id="profit">$0</h2>
+                <small>MXN</small>
+            </article>
+            <article class="metric-card">
+                <span>Reputación</span>
+                <h2 id="reputation">50/100</h2>
+                <small>Satisfacción del mercado</small>
+            </article>
+        </section>
+
+        <!-- MISIÓN DEL MES -->
+        <section class="panel mission-panel">
+            <div class="section-title">
+                <div>
+                    <p class="eyebrow">DESAFÍO DEL MES</p>
+                    <h3 id="missionTitle">Misión empresarial</h3>
+                </div>
+                <span class="mission-tag">+ Recompensa</span>
+            </div>
+            <p id="missionDescription" class="muted"></p>
+            <div class="mission-progress">
+                <div id="missionBar"></div>
+            </div>
+            <p id="missionProgressText" class="muted"></p>
+            <p id="missionReward" class="reward"></p>
+        </section>
+
+        <!-- INVENTARIO Y DECISIONES -->
+        <div class="content-grid">
+
+            <section class="panel">
+                <h3>Inventario y precios</h3>
+                <p class="muted">
+                    Compra productos y ajusta sus precios de venta.
+                </p>
+                <div id="inventory"></div>
+                <p id="purchaseTotal" class="muted">
+                    Costo de compra: $0
+                </p>
+                <button id="buyBtn" class="secondary">
+                    Comprar unidades seleccionadas
+                </button>
+            </section>
+
+            <section class="panel">
+                <h3>Decisiones empresariales</h3>
+                <p class="muted">
+                    Selecciona tus inversiones antes de finalizar el mes.
+                </p>
+
+                <div class="actions">
+                    <button id="advertisingBtn">
+                        📣 Publicidad
+                        <small>Costo: $2,000 · Más demanda</small>
+                    </button>
+                    <button id="trainingBtn">
+                        🎓 Capacitación
+                        <small>Costo: $1,500 · Mejor servicio</small>
+                    </button>
+                </div>
+
+                <div class="market">
+                    <strong>Condiciones del mercado</strong>
+                    <p id="marketText"></p>
+                </div>
+
+                <div class="event-card">
+                    <p class="eyebrow">EVENTO EMPRESARIAL</p>
+                    <h3 id="eventTitle">Situación del mes</h3>
+                    <p id="eventDescription" class="muted"></p>
+                    <div id="eventOptions" class="event-options"></div>
+                    <p id="eventResult" class="event-result"></p>
+                </div>
+
+                <button id="nextBtn" class="primary">
+                    Finalizar mes y calcular resultados →
+                </button>
+            </section>
+
+        </div>
+
+        <!-- GRÁFICA E HISTORIAL -->
+        <div class="content-grid">
+            <section class="panel">
+                <h3>Evolución financiera</h3>
+                <p class="muted">
+                    Capital al cierre de cada mes (MXN)
+                </p>
+                <canvas id="capitalChart"
+                        width="560" height="260"
+                        role="img"
+                        aria-label="Evolución del capital">
+                </canvas>
+            </section>
+
+            <section class="panel">
+                <h3>Historial de resultados</h3>
+                <div id="messages" class="messages"
+                     aria-live="polite"></div>
+            </section>
+        </div>
+
+        <!-- AVANCE DE PARTIDA -->
+        <section class="panel">
+            <h3>Progreso empresarial</h3>
+            <div class="progress-stats">
+                <div>
+                    <span>Misiones completadas</span>
+                    <strong id="missionsCompleted">0/12</strong>
+                </div>
+                <div>
+                    <span>Meses administrados</span>
+                    <strong id="monthsCompleted">0/12</strong>
+                </div>
+                <div>
+                    <span>Patrimonio estimado</span>
+                    <strong id="netWorth">$0</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- EVALUACIÓN FINAL -->
+        <section id="finalReport" class="panel final-report" hidden>
+            <p class="eyebrow">EVALUACIÓN FINAL</p>
+            <h2>Resultados de tu gestión</h2>
+            <div class="final-score" id="finalScore">0/100</div>
+            <h3 id="finalLevel"></h3>
+            <p id="finalSummary"></p>
+            <div id="finalBreakdown"></div>
+            <h3>Recomendaciones</h3>
+            <div id="recommendations"></div>
+            <button id="playAgainBtn" class="primary">
+                Jugar nuevamente
+            </button>
+        </section>
+
+    </section>
+</main>
+
+<footer>
+    BusinessUp Simulator 3.0 · Aprende. Decide. Crece.
+</footer>
+
+</body>
+</html>
